@@ -25,9 +25,12 @@ fun ProductCard(){
     ) {
         
         Card(
-            modifier = Modifier.border(1.dp, Color.Black, RoundedCornerShape(15.dp)).height(150.dp),
+            modifier = Modifier
+                .padding(10.dp)
+                .border(1.dp, Color.Black, RoundedCornerShape(15.dp))
+                .height(150.dp),
             elevation = 5.dp,
-            shape = RoundedCornerShape(5.dp)
+            shape = RoundedCornerShape(15.dp)
         ) {
             
             Row(
