@@ -1,3 +1,16 @@
 <resources>
     <string name="app_name">Store_App</string>
+
+    <!-- Error State Descriptions -->
+    <string name="error_handle_network">Lütfen İnternet Bağlantınızı Kontrol Edin!</string>
+    <string name="error_handle_not_found">Verilere Ulaşılamadı, Daha Sonra Tekrar Deneyiniz!</string>
+    <string name="error_handle_access_denied">Erişim Reddedildi!</string>
+    <string name="error_handle_service_unavailable">Servis Kullanım Dışı, Daha Sonra Tekrar Deneyiniz!</string>
+    <string name="error_handle_unknown">Bilinmeyen Bir Hata Oluştu, Daha Sonra Tekrar Deneyiniz!</string>
+    <string name="error_no_food_data">Yemek Verisi Yok!</string>
+    <string name="error_need_camera_permission">Kamera İzni Gerekli!</string>
+    <string name="error_please_remove_app_from_backstack">Lütfen uygulamayı arka plandan kaldırıp tekrar deneyin.</string>
+    <string name="error_please_try_again_later">Lütfen daha sonra tekrar deneyiniz.</string>
+
+
 </resources>
