@@ -1,4 +1,4 @@
-package com.enesk.store_app.data.remote.model.product
+package com.enesk.store_app.domain.model.product
 
 
 import com.google.gson.annotations.SerializedName

@@ -1,6 +1,6 @@
 package com.enesk.store_app.domain.repository
 
-import com.enesk.store_app.data.remote.model.product.ProductResponse
+import com.enesk.store_app.domain.model.product.ProductResponse
 
 interface ProductRepository {
 
