@@ -1,16 +1,19 @@
 package com.enesk.store_app.presentation.screens.home
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
@@ -18,8 +21,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import coil.annotation.ExperimentalCoilApi
+import coil.compose.rememberImagePainter
 import com.enesk.store_app.domain.model.product.ProductResponse
-
+import com.enesk.store_app.presentation.components.ApiErrorState
+import com.enesk.store_app.presentation.components.ApiLoadingState
+import com.enesk.store_app.presentation.ui.theme.priceBackground
 
 
 @ExperimentalCoilApi
@@ -37,11 +43,11 @@ fun Home(
     ) {
 
         if (productListState.isLoading){
-            //ApiLoadingState()
+            ApiLoadingState()
         }
         if (productListState.error !=0){
             val message = context.getString(productListState.error)
-            //ApiErrorState(message = message)
+            ApiErrorState(message = message)
         }
 
         if (productListState.homeData != null){
@@ -109,14 +115,30 @@ fun ProductCard(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceAround
             ) {
-                Text(text = "image")
+
+                Image(
+                    painter = rememberImagePainter(data = image),
+                    contentDescription = "image",
+                    modifier = Modifier
+                        .padding(10.dp)
+                        .size(150.dp, 200.dp)
+                        .clip(CircleShape)
+                )
 
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center
                 ) {
+
                     Text(text = title)
-                    Text(text = price,Modifier.background(Color.Blue), color = Color.White)
+                    Spacer(modifier = Modifier.padding(7.dp))
+                    Text(
+                        text = "$price TL",
+                        Modifier
+                            .background(color = priceBackground)
+                            .padding(8.dp)
+                        , color = Color.Black,
+                    )
                 }
             }
 
