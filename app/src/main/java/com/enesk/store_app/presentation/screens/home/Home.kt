@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -34,7 +35,7 @@ import com.enesk.store_app.presentation.ui.theme.priceBackground
 fun Home(
     navController: NavHostController,
     viewModel: HomeViewModel = hiltViewModel()
-){
+) {
     val productListState = viewModel.homeState.value
     val context = LocalContext.current
 
@@ -42,15 +43,14 @@ fun Home(
         modifier = Modifier.fillMaxSize()
     ) {
 
-        if (productListState.isLoading){
+        if (productListState.isLoading) {
             ApiLoadingState()
         }
-        if (productListState.error !=0){
+        if (productListState.error != 0) {
             val message = context.getString(productListState.error)
             ApiErrorState(message = message)
         }
-
-        if (productListState.homeData != null){
+        if (productListState.homeData != null) {
             ProductListScreen(
                 homeData = productListState.homeData,
                 viewModel = viewModel
@@ -61,23 +61,21 @@ fun Home(
 
 }
 
-
 @ExperimentalCoilApi
 @ExperimentalFoundationApi
 @Composable
 fun ProductListScreen(
-    homeData : ProductResponse,
+    homeData: ProductResponse,
     viewModel: HomeViewModel
-){
-
+) {
 
     Column() {
         LazyColumn(
             modifier = Modifier
                 .padding(bottom = 10.dp)
                 .height(1000.dp)
-        ){
-            items(homeData) {item ->
+        ) {
+            items(homeData) { item ->
                 ProductCard(
                     item.image!!,
                     item.title!!,
@@ -87,19 +85,19 @@ fun ProductListScreen(
         }
     }
 
-
 }
 
 @ExperimentalCoilApi
 @Composable
 fun ProductCard(
-    image : String,
-    title : String,
-    price : String
-){
-    Surface(modifier = Modifier
-        .fillMaxWidth()
-        .wrapContentHeight()
+    image: String,
+    title: String,
+    price: String
+) {
+    Surface(
+        modifier = Modifier
+            .fillMaxWidth()
+            .wrapContentHeight()
     ) {
 
         Card(
@@ -112,6 +110,7 @@ fun ProductCard(
         ) {
 
             Row(
+                modifier = Modifier.padding(horizontal = 10.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceAround
             ) {
@@ -123,21 +122,32 @@ fun ProductCard(
                         .padding(10.dp)
                         .size(150.dp, 200.dp)
                         .clip(CircleShape)
+                        .weight(0.3f)
                 )
 
                 Column(
+                    modifier = Modifier
+                        .weight(0.7f)
+                        .fillMaxWidth()
+                        .padding(horizontal = 25.dp),
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center
                 ) {
 
-                    Text(text = title)
+                    Text(
+                        modifier = Modifier.fillMaxWidth(),
+                        text = title,
+                        maxLines = 2,
+                        overflow = TextOverflow.Ellipsis
+                    )
+
                     Spacer(modifier = Modifier.padding(7.dp))
                     Text(
                         text = "$price TL",
                         Modifier
-                            .background(color = priceBackground)
-                            .padding(8.dp)
-                        , color = Color.Black,
+                            .background(color = priceBackground, shape = RoundedCornerShape(10.dp))
+                            .padding(8.dp),
+                        color = Color.Black,
                     )
                 }
             }
