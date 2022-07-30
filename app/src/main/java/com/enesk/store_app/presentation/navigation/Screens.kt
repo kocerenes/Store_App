@@ -10,4 +10,9 @@ sealed class Screens(
         null
     )
 
+    object ProductDetail : Screens(
+        "product_detail_screen",
+        null
+    )
+
 }

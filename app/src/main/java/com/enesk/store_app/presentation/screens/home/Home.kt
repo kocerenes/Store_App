@@ -1,9 +1,6 @@
 package com.enesk.store_app.presentation.screens.home
 
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -25,9 +22,12 @@ import androidx.navigation.NavHostController
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.enesk.store_app.domain.model.product.ProductResponse
+import com.enesk.store_app.domain.model.product.ProductResponseItem
 import com.enesk.store_app.presentation.components.ApiErrorState
 import com.enesk.store_app.presentation.components.ApiLoadingState
+import com.enesk.store_app.presentation.navigation.Screens
 import com.enesk.store_app.presentation.ui.theme.priceBackground
+import com.enesk.store_app.utils.Constants.PRODUCT_DETAILS_ARGUMENT_KEY
 
 
 @ExperimentalCoilApi
@@ -53,6 +53,7 @@ fun Home(
         }
         if (productListState.homeData != null) {
             ProductListScreen(
+                navController = navController,
                 homeData = productListState.homeData,
                 viewModel = viewModel
             )
@@ -66,6 +67,7 @@ fun Home(
 @ExperimentalFoundationApi
 @Composable
 fun ProductListScreen(
+    navController: NavController,
     homeData: ProductResponse,
     viewModel: HomeViewModel
 ) {
@@ -78,11 +80,11 @@ fun ProductListScreen(
         ) {
             items(homeData) { item ->
                 ProductCard(
-                    item.image!!,
-                    item.title!!,
-                    item.price!!
+                    navController,
+                    item
                 )
             }
+
         }
     }
 
@@ -91,10 +93,10 @@ fun ProductListScreen(
 @ExperimentalCoilApi
 @Composable
 fun ProductCard(
-    image: String,
-    title: String,
-    price: String
+    navController: NavController,
+    homeData: ProductResponseItem,
 ) {
+
     Surface(
         modifier = Modifier
             .fillMaxWidth()
@@ -105,10 +107,18 @@ fun ProductCard(
             modifier = Modifier
                 .padding(10.dp)
                 .border(1.dp, Color.Black, RoundedCornerShape(15.dp))
-                .height(150.dp),
+                .height(150.dp)
+                .clickable {
+                    navController.currentBackStackEntry?.savedStateHandle?.set(
+                        PRODUCT_DETAILS_ARGUMENT_KEY,
+                        homeData
+                    )
+                    navController.navigate(Screens.ProductDetail.route)
+                },
             elevation = 5.dp,
-            shape = RoundedCornerShape(15.dp)
-        ) {
+            shape = RoundedCornerShape(15.dp),
+
+            ) {
 
             Row(
                 modifier = Modifier.padding(horizontal = 10.dp),
@@ -117,13 +127,13 @@ fun ProductCard(
             ) {
 
                 Image(
-                    painter = rememberImagePainter(data = image),
+                    painter = rememberImagePainter(data = homeData.image),
                     contentDescription = "image",
                     modifier = Modifier
                         .padding(10.dp)
                         .size(150.dp, 200.dp)
                         .clip(CircleShape)
-                        .weight(0.3f)
+                        .weight(0.3f),
                 )
 
                 Column(
@@ -137,14 +147,14 @@ fun ProductCard(
 
                     Text(
                         modifier = Modifier.fillMaxWidth(),
-                        text = title,
+                        text = homeData.title!!,
                         maxLines = 2,
                         overflow = TextOverflow.Ellipsis
                     )
 
                     Spacer(modifier = Modifier.padding(7.dp))
                     Text(
-                        text = "$price TL",
+                        text = "${homeData.price} TL",
                         Modifier
                             .background(color = priceBackground, shape = RoundedCornerShape(10.dp))
                             .padding(8.dp),
