@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
 @Entity(tableName = "products")
-data class Product (
+data class ProductEntity (
     @PrimaryKey(autoGenerate = true)
     val id: Int?,
     val category: String?,

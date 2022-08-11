@@ -3,10 +3,16 @@ package com.enesk.store_app.presentation.screens.product_detail
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
-import androidx.compose.material.icons.materialIcon
+import androidx.compose.material.Divider
+import androidx.compose.material.Surface
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -27,18 +33,15 @@ fun ProductDetail(
     Surface(
         modifier = Modifier.fillMaxSize()
     ) {
-
         Column(
             verticalArrangement = Arrangement.SpaceEvenly,
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
                 .fillMaxSize()
         ) {
-            println("detail screen")
-
             Image(
                 painter = rememberImagePainter(data = product.image),
-                contentDescription = product.title
+                contentDescription = product.title,
             )
 
             Divider(color = priceBackground, thickness = 4.dp)
@@ -65,7 +68,7 @@ fun ProductDetail(
                         .background(color = priceBackground, shape = RoundedCornerShape(10.dp))
                         .padding(8.dp),
                     color = Color.Black,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
                 )
 
                 Text(
@@ -76,11 +79,7 @@ fun ProductDetail(
                     color = Color.Black,
                     fontWeight = FontWeight.Bold
                 )
-
             }
-
-
         }
-
     }
 }
