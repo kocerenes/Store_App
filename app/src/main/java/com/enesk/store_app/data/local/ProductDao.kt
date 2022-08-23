@@ -15,7 +15,7 @@ interface ProductDao {
     suspend fun insert(productEntity: ProductEntity)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAll(productEntities: ArrayList<ProductEntity>)
+    suspend fun insertAll(productEntities: List<ProductEntity>)
 
     @Delete
     suspend fun delete(productEntity: ProductEntity)
@@ -23,4 +23,7 @@ interface ProductDao {
     //flow zaten asenkron calıstıgı için suspend yazmamıza gerek yok
     @Query("SELECT * FROM products")
     fun observeProducts(): Flow<List<ProductEntity>>
+
+    @Query("SELECT * FROM products WHERE category LIKE '%' || :category || '%'")
+    suspend fun getWordInfos(category: String): List<ProductEntity>
 }
